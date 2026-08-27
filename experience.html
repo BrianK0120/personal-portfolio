@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brian Kang Portfolio</title>
+    <title>Experience - Brian Kang</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦾</text></svg>">
 </head>
 
 <body>
@@ -22,8 +23,82 @@
         </section>
 
         <section id="red-bull">
-            <h2>Red Bull Powertrains</h2>
-            ...
+            <h2>Trackside Engineering Placement - Red Bull Powertrains</h2>
+            <p><em>July 2025 - July 2026</em></p>
+
+            <div class="gallery-three">
+                <a href="assets/rbpt/car.jpg" target="_blank">
+                    <img src="assets/rbpt/car.jpg" alt="Team">
+                </a>
+                <a href="assets/rbpt/team.jpg" target="_blank">
+                    <img src="assets/rbpt/team.jpg" alt="Team">
+                </a>
+                <a href="assets/rbpt/max.jpg" target="_blank">
+                    <img src="assets/rbpt/max.jpg" alt="Team">
+                </a>
+            </div>
+
+            <p>
+                During my 12-month placement at Red Bull Powertrains, I worked within
+                the Trackside Engineering team supporting the development, validation,
+                and operation of Red Bull's first power unit. My work was
+                split between Product Validation and Confirmation &amp; Durability,
+                giving me experience across both data-driven engineering and power unit testing.
+            </p>
+
+            <h3>Product Validation &amp; Data Science</h3>
+            <p>
+                I worked extensively with Formula 1 power unit telemetry, developing
+                models and analysis tools to support both race operations and the
+                development of the new 2026 power unit. This included developing a
+                lumped-parameter thermal model of the MGU-K that was deployed on the
+                race ECU, achieving temperature predictions within &plusmn;1 &deg;C
+                during live running on track.
+            </p>
+            <p>
+                I performed competitor analysis by reverse-engineering
+                energy deployment profiles of qualifying laps from onboard audio using FFT and
+                spectrogram analysis. This information was used to give comparison against
+                our own deployment profiles and feed into our lap simulation. 
+                In addition, I developed a genetic algorithm optimizer to determine laptime-optimal 
+                power unit allocation across a race season for a given car, 
+                dynamically updating the allocation as races progressed.
+            </p>
+            <p>
+                Alongside modelling and analysis, I created specified test run plans for over 200 laps of transient dyno running, 
+                optimized internal telemetry libraries for Python,
+                and developed a Streamlit-based telemetry visualization platform deployed on a Kubernetes cluster, 
+                allowing engineers across the factory to interactively generate custom plots from power unit data.
+            </p>
+
+            <h3>Confirmation &amp; Durability</h3>
+            <p>
+                In the Confirmation &amp; Durability team, I operated Formula 1 power
+                units on dynamometer test cells for durability testing and new engine
+                pass-off programs. I monitored real-time telemetry across the ICE,
+                turbo, MGU-K, and battery systems using ATLAS and System Monitor, 
+                investigating faults and anomalies during testing.
+            </p>
+            <p>
+                When issues occurred, I worked across different power unit subsystems
+                to identify root causes, coordinated with designers to determine
+                solutions, and developed diagnostic methodology for recurring faults. 
+            </p>
+            <p>
+                I also owned the power unit operational limits document, defining safe
+                operating boundaries used by factory and trackside teams.
+                Values were updated as spec changes, calibration releases, and discoveries from dyno
+                running were made, communicating new releases to the race team on a race by race basis.
+            </p>
+            <p>
+                During dyno downtime, I developed a dyno hours monitoring dashboard,
+                tracking Operational and Occupancy hours, mileage, fuel consumption for 
+                each dyno, alongside totals for V6 and single cylinder dyno. These metrics were
+                updated live, and were also available for each engine serial.
+                This was parallel to my work in creating dyno hour reports across each period,
+                used for legality checks by the FIA.
+            </p>
+
         </section>
 
     </main>
