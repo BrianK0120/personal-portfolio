@@ -52,13 +52,13 @@ section {
 
 h1 {
     margin: 0;
+    margin-top: 20px;
     font-size: 36px;
     font-weight: 600;
     letter-spacing: -1px;
 }
 
 h2 {
-    margin-bottom: 10px;
     font-size: 28px;
     font-weight: 600;
 }
@@ -69,7 +69,7 @@ h3 {
 }
 
 p {
-    max-width: 700px;
+    /* max-width: 700px; */
     color: #555;
 }
 
@@ -146,6 +146,50 @@ li {
     border-radius: 5%;
     margin-top: 25px;
 }
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-section {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.project-section.reverse {
+    flex-direction: row-reverse;
+}
+
+.project-image {
+    width: 50%;
+    height: auto;
+}
+
+.image-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.image-column .project-image {
+    width: 100%;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+}
+
+.gallery img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
 
 /* Links */
 a {
