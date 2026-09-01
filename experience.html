@@ -45,60 +45,87 @@
                 split between Product Validation and Confirmation &amp; Durability,
                 giving me experience across both data-driven engineering and power unit testing.
             </p>
-
-            <h3>Product Validation &amp; Data Science</h3>
             <p>
-                I worked extensively with Formula 1 power unit telemetry, developing
-                models and analysis tools to support both race operations and the
-                development of the new 2026 power unit. This included developing a
-                lumped-parameter thermal model of the MGU-K that was deployed on the
-                race ECU, achieving temperature predictions within &plusmn;1 &deg;C
-                during live running on track.
-            </p>
-            <p>
-                I performed competitor analysis by reverse-engineering
-                energy deployment profiles of qualifying laps from onboard audio using FFT and
-                spectrogram analysis. This information was used to give comparison against
-                our own deployment profiles and feed into our lap simulation. 
-                In addition, I developed a genetic algorithm optimizer to determine laptime-optimal 
-                power unit allocation across a race season for a given car, 
-                dynamically updating the allocation as races progressed.
-            </p>
-            <p>
-                Alongside modelling and analysis, I created specified test run plans for over 200 laps of transient dyno running, 
-                optimized internal telemetry libraries for Python,
-                and developed a Streamlit-based telemetry visualization platform deployed on a Kubernetes cluster, 
-                allowing engineers across the factory to interactively generate custom plots from power unit data.
+                With my team members being the trackside Power Unit Engineers and Performance Engineers on the race team for 
+                Red Bull Racing and Visa Cash App Racing Bulls, I have had the chance to work alongside some of the most 
+                talented engineers in the sport, gaining direct exposure to how a Formula 1 team operates at the race track.
             </p>
 
-            <h3>Confirmation &amp; Durability</h3>
+            <h3>Product Validation & Data Science</h3>
             <p>
-                In the Confirmation &amp; Durability team, I operated Formula 1 power
-                units on dynamometer test cells for durability testing and new engine
-                pass-off programs. I monitored real-time telemetry across the ICE,
-                turbo, MGU-K, and battery systems using ATLAS and System Monitor, 
-                investigating faults and anomalies during testing.
-            </p>
-            <p>
-                When issues occurred, I worked across different power unit subsystems
-                to identify root causes, coordinated with designers to determine
-                solutions, and developed diagnostic methodology for recurring faults. 
-            </p>
-            <p>
-                I also owned the power unit operational limits document, defining safe
-                operating boundaries used by factory and trackside teams.
-                Values were updated as spec changes, calibration releases, and discoveries from dyno
-                running were made, communicating new releases to the race team on a race by race basis.
-            </p>
-            <p>
-                During dyno downtime, I developed a dyno hours monitoring dashboard,
-                tracking Operational and Occupancy hours, mileage, fuel consumption for 
-                each dyno, alongside totals for V6 and single cylinder dyno. These metrics were
-                updated live, and were also available for each engine serial.
-                This was parallel to my work in creating dyno hour reports across each period,
-                used for legality checks by the FIA.
+                During my time in Product Validation, I worked to model and analyze the power unit to support on-track running,
+                using telemetry and simulation to validate performance and support trackside decisions. Required extensive use of
+                Python and PyTorch, aswell as ATLAS.
+                My contributions were in the following projects:
             </p>
 
+            <h4>Energy Deployment - Competitor Analysis</h4>
+            <p>
+                I developed a new competitor analysis methodology, where I reverse-engineered competitor battery energy deployment strategies 
+                from onboard audio using FFT and spectrogram analysis. My work determined regions of full K deployment, the start of derating,
+                end of derating, ICE-only power, as well as super K clip harvest vs. lift off harvest.
+                This allowed for comparison against our own deployment profiles, feeding into our lap simulation and energy management strategies.
+            </p>
+
+            <h4>Seasonal Power Unit Allocation - Genetic Algorithm Optimizer</h4>
+            <p>
+                Built a genetic algorithm optimizer to determine laptime-optimal power unit allocation permutation across a full race season for a given car.
+                Real-life constraints were added to the optimizer, as well as the consideration of introducing addition
+                power units to the pool, with the cost of taking a grid place penalty. The allocation dynamically re-optimizes as races occur, 
+                determining the optimal power unit usage for the remainder of the season.
+            </p>
+
+            <h4>MGU-K Lumped-Parameter Thermal Model</h4>
+            <p>
+                Developed a lumped parameter thermal model of the MGU-K, utilized to proxy temperature on track 
+                and to satisfy FIA regulatory requirements for ADUO calculations.
+                The model is deployed on the TAG-700 race ECU, achieving temperature predictions within ±1°C during live running across all four cars.
+                To obtain data for this model, a test specification was written for several hundred dyno transient laps, gathering telemetry
+                across varying MGU-K load, track conditions, and operating conditions.
+            </p>
+
+
+            <h3>Confirmation & Durability</h3>
+            <p>
+                In the Confirmation & Durability team, I operated the power unit in V6 dyno test cells for characterizing power unit performance 
+                and reliability, as well as calibrating new engines for pass-off ahead of track use. Utilized ATLAS for live data visualization 
+                and SystemMonitor for project setup, calibrations, and monitoring the power unit.
+            </p>
+
+            <h4>V6 Dyno Running</h4>
+            <ul>
+                <li><b>Durability Testing:</b> 
+                    Ran race weekend simulations across varying lap types and operating conditions,
+                    characterizing power unit performance and operational limits, identifying faults, and proving out calibrations.
+                    Worked with designers to resolve issues and with dyno technicians to run the engines.
+                </li>
+                <li><b>Pass-Off:</b>
+                    Ran new power units on dyno ahead of track use, breaking in with bearing cycles,
+                    validating performance using power curves, and calibrating injectors to maximize performance.
+                </li>
+            </ul>
+
+            <h4>Other Responsibilities</h4>
+            <ul>
+                <li>
+                    <b>Race Ops Rooms Support:</b>
+                    Supporting trackside power unit engineers for Red Bull Racing and Visa Cash App Racing Bulls during race weekends,
+                    monitoring live data on ATLAS, noting faults, collecting oil sample data, monitoring wear metals, 
+                    investigating issues, and comparing with previous track/dyno running.
+                </li>
+                <li>
+                    <b>Power Unit Operational Limits Document:</b>
+                    Owned the operational limits document for the power unit, defining safe operating boundaries 
+                    used by factory and trackside teams. Limits were added and values were updated with dyno and track
+                    proveout, with new releases communicated to the race team on a race by race basis.
+                </li>
+                <li>
+                    <b>FIA Dyno Hours Reporting:</b>
+                    Created dyno hour reports across each period, used for legality checks by the FIA. 
+                    In tandem, developed a dyno hours monitoring dashboard, processing dyno telemetry automatically through a Docker application 
+                    hosted on Kubernetes, calculating Operational and Occupancy hours and other statistics to view on a visual dashboard, updating live.
+                </li>
+            </ul>
         </section>
 
     </main>

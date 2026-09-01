@@ -126,63 +126,24 @@
             </section>
 
             <h3>Gallery</h3>
-                <div class="gallery">
-                    <a href="assets/robot-arm/gallery/01.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/01.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/02.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/02.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/03.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/03.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/04.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/04.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/05.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/05.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/06.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/06.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/07.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/07.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/08.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/08.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/09.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/09.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/10.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/10.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/11.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/11.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/12.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/12.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/13.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/13.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/14.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/14.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/15.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/15.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/16.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/16.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/17.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/17.jpg" alt="Robot arm">
-                    </a>
-                    <a href="assets/robot-arm/gallery/18.jpg" target="_blank">
-                        <img src="assets/robot-arm/gallery/18.jpg" alt="Robot arm">
-                    </a>
-                </div>
-
+                <div class="gallery" id="robot-arm-gallery"></div>
+                <script>
+                const galleryCount = 18;
+                const armGallery = document.getElementById("robot-arm-gallery");
+                for (let i = 1; i <= galleryCount; i++){
+                    const num = String(i).padStart(2, "0");
+                    const path = `assets/robot-arm/gallery/${num}.jpg`;
+                    const a = document.createElement("a");
+                    a.href = path;
+                    a.target = "_blank";
+                    const img = document.createElement("img");
+                    img.src = path;
+                    img.alt = "Robot arm";
+                    img.loading = "lazy";
+                    a.appendChild(img);
+                    armGallery.appendChild(a);
+                }
+                </script>
         </section>
 
     </main>
