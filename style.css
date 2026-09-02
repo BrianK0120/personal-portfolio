@@ -218,6 +218,14 @@ li {
     object-fit: cover;
 }
 
+.wip-note {
+    font-size: 20px;
+    font-style: italic;
+    color: #888;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 
 /* Links */
 a {

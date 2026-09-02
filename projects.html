@@ -50,8 +50,8 @@
                 </p>
                 <ul>
                     <li><b>Mechanical:</b> CAD, rapid prototyping, torque reduction, design for manufacturing and assembly</li>
-                    <li><b>Electrical:</b> PCB design, sensor integration, motor drivers, power distribution</li>
-                    <li><b>Embedded:</b> STM32 firmware, stepper control, homing, sensing</li>
+                    <li><b>Electrical:</b> custom PCB design, stepper motor drivers, sensor integration, power distribution</li>
+                    <li><b>Embedded:</b> STM32 firmware, stepper control, sensorless stall detection, hall effect homin</li>
                     <li><b>Robotics:</b> ROS2, forward/inverse kinematics, trajectory planning, MPC</li>
                     <li><b>ML & Simulation:</b> Gazebo, cameras, object detection, localization</li>
                 </ul>
@@ -84,9 +84,9 @@
                 </ul>
                 <p>
                     Following an anatomical naming scheme, the robot arm assembly is split into multiple subsections,
-                    each design as a separate sub-assembly. This configuration allows for modularity,
+                    each designed as a separate sub-assembly. This configuration allows for modularity,
                     allowing for modifications and part replacements without rebuilding the entire arm,
-                    leverage rapid prototyping. Components were designed in OnShape to be 3D printed and assembled
+                    leveraging rapid prototyping. Components were designed in OnShape to be 3D printed and assembled
                     using heat-set inserts and standard M3 hardware.
                 </p>
             </div>
@@ -123,7 +123,7 @@
                     Given these benefits, a belt reduction was utilized on the arm and forearm linkages.
                 </p>
             </div>
-            <h5>1.2.1 Cycloidal Drive</h5>
+            <h5>1.2.2 Cycloidal Drive</h5>
             <div class="project-float">
                 <img class="project-image-float" src="assets/robot-arm/cycloidal-drive.jpg" alt="Shoulder cycloidal drive">
                 <p>
@@ -134,11 +134,11 @@
                 </p>
                 <p>
                     To achieve the desired backlash, several iterations with the tolerancing were required.
-                    With very few parts, the cycloidal disc was chosen to be iterated upon, given its intefacing
+                    With very few parts, the cycloidal disc was chosen to be iterated upon, given its interfacing
                     with the outer pins as well as the inner bushings. To eliminate variables and to allow for
                     fast convergence, a fixed number of wall outer loops and infill density were decided upon,
                     with the only change being the outer and inner tolerancing. The end product provides 
-                    minimal backlash without too much friction.
+                    minimal backlash while maintaining low friction.
                 </p>
             </div>
 
@@ -148,7 +148,7 @@
                 <p>
                     During the first attempt of building a robotic manipulator, there was inadequate torque reduction,
                     causing the small 28BYJ-48 stepper motors to stall and unable to rotate.
-                    To work around the issue, I had attached a bag of screws on the opposite side to counterbalance
+                    To work around the issue, I attached a bag of screws on the opposite side to counterbalance
                     and cancel out the moment forces required, such that the motor could rotate. 
                 </p>
                 <p>
@@ -173,7 +173,7 @@
                     The alternative of leaving cables laying on the outside, would have left to a messy and unmanaged design.
                 </p>
                 <p>
-                    Upon consideration, the solution cam from an experience during my Red Bull Powertrains placement, 
+                    Upon consideration, the solution came from an experience during my Red Bull Powertrains placement, 
                     where I spent a week in engine build helping disassmble a F1 power unit. I noticed throughout the 
                     disassembly process carbon fibre plates epoxied onto the body, with gaps sized for zip ties used
                     to fasten wiring harnesses and looms directly onto the engine at specified tie-down points.
@@ -181,8 +181,8 @@
                 </p>
                 <p>
                     Taking inspiration from this, I added zip tie mounts across the linkages of the arm,
-                    allowing wiring to the fastened to the body. This similarly allows easy access and servicing
-                    by cutting a couple zip ties. Althought a small part of the overall design, this simple solution
+                    allowing wiring to be fastened to the body. This similarly allows easy access and servicing
+                    by cutting a couple zip ties. Although a small part of the overall design, this simple solution
                     provides tidiness without adding significant time to the design process.
                 </p>
             </div>
@@ -201,12 +201,12 @@
                     a 48mm unit at the elbow. The NEMA 17s and 23 are driven by TMC2209s and TMC5160 respectively,
                     with the latter chosen for its higher current capabilities.
                     These drivers were chosen over the A4988 I have previously used for their quieter operation,
-                    finer microstepping, StallGuard support, and UART/SPI configuratbility for features such as
+                    finer microstepping, StallGuard support, and UART/SPI configurability for features such as
                     StealthChop and SpreadCycle
                 </p>
                 <p>
                     Each joint uses an A3144E hall effect sensor paired with a magnet for homing.
-                    For joints with a physically restricted range of motion, limit switches are places on both ends of their travel.
+                    For joints with a physically restricted range of motion, limit switches are placed on both ends of their travel.
                 </p>
                 <p>
                     Power comes from a 24V 20A DC switching supply distributed through terminal blocks.
@@ -230,7 +230,7 @@
                     where the motor wires running alongside the sensor wires in the loom induces EMI onto the sensor signals.
                 </p>
                 <p>
-                    Filtering the EMI in software resolve the issue, but ultimately being in the prototyping phase 
+                    Filtering the EMI in software resolved the issue, but ultimately being in the prototyping phase 
                     and to simplify software, the issue was addressed at the hardware level with an RC filter for each sensor,
                     clearing up the signal.
                 </p>
@@ -255,229 +255,66 @@
                 </p>
             </div>
            
+            <h3>3. Embedded Firmware</h3>
 
-
-            
-
-
-
-
-
-
-
-<!-- 
-
-
-<h3>Homing & Motion Control</h3>
-<div class="project-float">
-    <p>
-        Each joint requires homing to establish a known reference position before motion control can begin.
-        Joints are categorized as either <b>free</b> or <b>restricted</b>, each requiring a different homing
-        strategy.
-    </p>
-    <p>
-        A free joint has no physical range-of-motion limit and can rotate a full 360°, so a single Hall-effect
-        sensor and magnet pair is sufficient. The joint moves in a known direction from an unknown starting
-        position until the sensor detects the magnet, establishing the home position from that detection.
-    </p>
-    <p>
-        A restricted joint — one with a physically limited range of motion, such as where the arm could
-        intersect the base — additionally uses limit switches at each end of its range as hard-stop
-        indicators. The joint moves toward a limit switch; if triggered, it reverses direction until the Hall
-        sensor detects the magnet, which establishes home.
-    </p>
-    <p>
-        Because the A3144E is a digital sensor, it cannot report an exact single-point detection — instead, it
-        reports two edges of a detection window as the magnet passes by. The true home position is taken as
-        the midpoint of that window: <code>home = (angle_on + angle_off) / 2</code>. This midpoint approach
-        keeps homing accuracy independent of magnet placement radius, magnet width, and joint speed, all of
-        which affect the raw detection window but not its midpoint.
-    </p>
-    <p>
-        During limit switch testing, an edge case surfaced where a sudden stop at one limit switch could cause
-        enough mechanical rebound to momentarily trigger the opposite limit switch — a reminder that trajectory
-        profile choice (trapezoidal vs. S-curve) affects not just motion smoothness but also how reliably
-        limit-switch-based safety logic behaves in practice.
-    </p>
-</div>
-
-<h3>Controls</h3>
-<section>
-    <div>
-        <p>
-            The control system is currently under development. The arm is controlled by an STM32F446RE, with
-            stepper drivers configured through step/direction signals and UART.
-        </p>
-        <p>
-            Current work is focused on implementing reliable joint homing and motion control. Future
-            development will include forward and inverse kinematics, trajectory generation, and higher-level
-            motion planning through ROS2 and MATLAB/Simulink integration, along with simulation in Gazebo.
-        </p>
-    </div>
-</section>
-
-
-<h4>Motor Selection & Torque Reduction</h4>
-<div class="project-float">
-    <p>
-        Motor selection came down to a NEMA 17 vs. NEMA 23 tradeoff at each joint. NEMA 17 motors are
-        smaller, lighter, and sufficient for most of the arm's joints, but their lower holding and dynamic
-        torque made them unsuitable for the shoulder, which carries the highest structural load in the arm's
-        worst-case extended configuration. A NEMA 23 motor was used there instead, at the cost of added
-        weight and size closer to the arm's base — where it matters least, since base-mounted mass doesn't
-        contribute to the arm's effective moment arm the way distal mass would.
-    </p>
-    <p>
-        Torque requirements were evaluated separately for holding torque (supporting a static load against
-        gravity) and dynamic torque (accelerating the joint under load), since a motor sized only for
-        holding torque can stall under acceleration, while sizing purely for dynamic torque everywhere would
-        over-spec joints that spend most of their time holding position. This distinction, along with each
-        motor's speed-torque tradeoff curve, informed both the motor choice and the reduction ratio needed at
-        each joint.
-    </p>
-    <p>
-        Four torque reduction mechanisms were considered:
-    </p>
-    <ul>
-        <li>
-            <b>Belt reduction</b> — used at most joints. Offers minimal backlash, particularly with proper
-            belt tensioning, and is mechanically efficient with low friction losses.
-        </li>
-        <li>
-            <b>Cycloidal drive</b> — used at the shoulder (25:1). Achieves a high reduction ratio in a
-            compact form factor with inherently low backlash; backlash was further minimized through
-            precision bushings and dowel pins in the drive assembly.
-        </li>
-        <li>
-            <b>Gear reduction</b> — used at the base. A helical gear profile was chosen to maximize
-            simultaneous tooth contact and minimize backlash; a double-helix configuration would additionally
-            cancel out axial thrust load, though this was weighed against added manufacturing complexity.
-        </li>
-        <li>
-            <b>Planetary gearbox</b> — considered but not used. Would have offered a compact, stackable,
-            direct-mount reduction if any joint had proven under-torqued, but no joint ultimately required it.
-        </li>
-    </ul>
-    <p>
-        The combination of motor sizing and reduction mechanism was tuned per joint rather than applying a
-        single uniform solution across the arm — balancing torque margin, backlash, weight distribution, and
-        mechanical complexity independently at each stage of the kinematic chain.
-    </p>
-</div>
-
-
-
-                <p>
-                    Motor selection was driven by the torque and speed requirements of each joint. Smaller, lower-torque
-                    joints (wrist, upper forearm) use NEMA 17 motors, while the shoulder — which bears the highest static
-                    and dynamic load in the arm's worst-case configuration — uses a larger NEMA 23 motor. Torque
-                    reduction mechanisms were selected per-joint based on their tradeoffs: belt reduction was used for
-                    most joints for its low backlash (especially with proper belt tension) and efficiency, while the
-                    shoulder uses a 25:1 cycloidal drive to achieve a high reduction ratio in a compact form factor with
-                    minimal backlash. A gear reduction was used at the base. Planetary gearboxes were considered but
-                    ultimately not needed, as no joint required additional torque beyond what belt or cycloidal reduction
-                    could provide.
-                </p>
-                <p>
-                    Bearing selection followed a similar joint-by-joint approach — radial bearings handle most joints,
-                    while a thrust bearing supports the axial load at the base, and a large-diameter ball bearing ring
-                    minimizes play in base rotation. For the elbow joint, where both axial and radial loads are present in
-                    varying proportions depending on arm position, a 45°/45° angular contact bearing was used to handle
-                    both simultaneously. In several locations, bearings were deliberately designed to contact only one
-                    race face rather than both, to simplify 3D-printed tolerancing where axial loading was minimal enough
-                    not to introduce meaningful friction.
-                </p>
-                <p>
-                    Several iterations of 3D printed parts were reprinted with adjusted tolerancing to minimize backlash
-                    at each joint — typical clearances were held to around 0.25mm. Each linkage required different
-                    hardware, including GT2 pulleys, belt loops, dowel pins, brass bushings, shoulder screws, and both
-                    radial and thrust bearings. The final arm has ~80cm of reach, with a modular end-effector mount to
-                    support various end-effector use cases.
-                </p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <h3>Mechanical Design</h3>
+            <h4>3.1 Motor Control</h4>
             <div class="project-float">
-                <img class="project-image-float left" src="assets/robot-arm/cad.png" alt="Robot arm CAD model">
                 <p>
-                    The arm was designed with modularity and manufacturability as key considerations.
-                    With each arm linkage being designed in separate sub-assemblies,
-                    individual components were easily modified and replaced without rebuilding the entire arm.
-                    The mechanical components were designed in OnShape to be 3D printed 
-                    and assembled using heat set inserts and standard M3 hardware.
+                    With the arm using stepper motors, the stepper position on startup is not inherently known,
+                    thus each joint is homed using the hall effect sensors.
                 </p>
                 <p>
-                    To achieve the required torque, torque reduction mechanisms were implemented,
-                    including belt and gear reductions, as well as a 25:1 cycloidal drive for the shoulder joint.
-                    Several iterations of the 3D printed parts were required to be reprinted with adjusted tolerancing
-                    to minimize the backlash of each joint. Each linkage required different hardware, including
-                    GT2 pulleys, belt loops, dowel pins, bushings, shoulder screws, axial bearings, and thrust bearings.
+                   Each motor's microstepping resolution is configured over UART (TMC2209) or SPI (TMC5160),
+                   from which joint position is track through step counting. There is an assumption that
+                   commanding a number of step results in the physical position corresponding as intended.
                 </p>
                 <p>
-                    The final arm has ~80cm of reach, with a modular end-effector to allow for
-                    various use cases.
+                    This open-loop approach one of the reasons why the TMC2209/5160 were chosen, as they support StallGuard.
+                    With the ability to detect motor stalls or skipped steps in real time, any event that breaks the
+                    step counting assumption is detected, allowing it to be reliabile until an issue occurs.
+                    As an added safety layer, joints with a limited range of motion use limit switches as a hard failsafe,
+                    in case the system commands a position the joint physically cannot reach.
                 </p>
             </div>
 
-            <h3>Electronics</h3>
+            <h4>3.2 Homing</h4>
             <div class="project-float">
-                <div class="image-column-float left">
-                    <img class="project-image-float left" src="assets/robot-arm/schematic.png" alt="KiCad Schematic">
-                    <img class="project-image-float left" src="assets/robot-arm/electronics.jpg" alt="Electronics for the robot arm">
-                </div>
                 <p>
-                    The arm uses six stepper motors controlled by an STM32
-                    Nucleo, with five NEMA 17 motors driven by TMC2209 stepper
-                    drivers and a NEMA 23 driven by a TMC5160. The
-                    system was designed around a 36V DC switching supply with a 5V step down
-                    from a buck convertor for the control electronics and servo.
+                    Each joint requires homing to establish a known reference position before motion control can begin.
+                    Of the joints in the robotic manipulator, they can be categorized as either free or restricted,
+                    requiring different homing strategies.
                 </p>
                 <p>
-                    Each joint utilizes an A3144 Hall-effect sensor for
-                    homing, while limit switches are used on the shoulder, elbow,
-                    and wrist joints where the mechanical range of motion is
-                    constrained. The current prototype uses hand-wired perfboards
-                    for the motor drivers and control electronics. 
-                    Electronics are protected using various fuses and an E-Stop button can be used to cut supply of power.
+                    A free joint has no physical range of motion limit and can rotate a full 360°. Therefore a single
+                    hall effect sensor and magnet pair is sufficient to home. The joint moves in a known direction
+                    from an unknown starting position until the magnet is detected, establishing the home position.
                 </p>
                 <p>
-                    The next iteration will consolidate the electronics into a
-                    custom PCB, reducing wiring complexity and creating a more
-                    compact and robust control system.
+                    A restricted joint with a limited range of motion requires limit switches to indicate hard stops.
+                    The homing process is similar with the joint moving towards a know direction from an unknown starting point.
+                    However, if a limit switch is detected before the magnet, the motor reverses direction until it can 
+                    detect the magnet and establish the home position.
+                </p>
+                <p>
+                    Within the homing calculation, it is important to note that as the A3144E is a digital sensor,
+                    it cannot report the exact home position based off the peak magnet strength.
+                    Instead, there is a detection window where a magnet is detected, of which the true home is the midpoint.
+                    Therefore <code>home = (angle_on + angle_off) / 2</code>. This allows for homing to be independant
+                    of magnet placement radius, magnet width, and joint speed, as they only affect the size of the detection window itself.
                 </p>
             </div>
 
-            <h3>Controls</h3>
+            <!-- <h4>3.3 Safety & Limit Switches</h4>
             <div class="project-float">
                 <p>
-                    The control system is currently under development. The arm is
-                    controlled by an STM32F446RE, with stepper
-                    drivers configured through step/direction signals and UART.
-                </p>
-
-                <p>
-                    Current work is focused on implementing reliable joint homing
-                    and motion control. Future development will include forward
-                    and inverse kinematics, trajectory generation, and higher-level
-                    motion planning.
+                    Limit switches are wired as interrupts, allowing the firmware to react immediately when a joint
+                    reaches a hard stop, rather than relying on polling.
                 </p>
             </div> -->
+
+            <p class="wip-note">
+                This project is a work in progress. This page will be updated to reflect ongoing progress.
+            </p>
 
             <h3>Gallery</h3>
                 <div class="gallery" id="robot-arm-gallery"></div>
