@@ -187,8 +187,76 @@
                 </p>
             </div>
 
-            <!-- <h3>2. Electronics</h3>
+            <h3>2. Electronics</h3>
             <h4>2.1 Electronics Architecture</h4>
+            <div class="project-float">
+                <img class="project-image-float" src="assets/robot-arm/electronics.jpg" alt="Electronics for the robot arm">
+                <p>
+                    At the heart of the manipulator is an STM32 Nucleo. Having previously worked with Arduino and ESP32,
+                    I wanted to push further into proper embedded control, and the STM32 platform was the natural next step.
+                </p>
+                <p>
+                    The arm uses six stepper motors, one per joint: five NEMA 17s and a NEMA 23 for the shoulder.
+                    Within the NEMA 17s, size varies depending on joint load, from a 23mm motor at the wrist up to
+                    a 48mm unit at the elbow. The NEMA 17s and 23 are driven by TMC2209s and TMC5160 respectively,
+                    with the latter chosen for its higher current capabilities.
+                    These drivers were chosen over the A4988 I have previously used for their quieter operation,
+                    finer microstepping, StallGuard support, and UART/SPI configuratbility for features such as
+                    StealthChop and SpreadCycle
+                </p>
+                <p>
+                    Each joint uses an A3144E hall effect sensor paired with a magnet for homing.
+                    For joints with a physically restricted range of motion, limit switches are places on both ends of their travel.
+                </p>
+                <p>
+                    Power comes from a 24V 20A DC switching supply distributed through terminal blocks.
+                    A buck convertor steps down to 5V for logic, sensors, and the gripper servo.
+                    The system is fully fused for protection, with an E-stop button that cuts power to the
+                    power supply.
+                </p>
+            </div>
+
+            <h4>2.2 Prototyping and Testing</h4>
+            <div class="project-float">
+                <img class="project-image-float left" src="assets/robot-arm/electronics-testing.jpg" alt="Electronics testing">
+                <p>
+                    The current prototype uses hand-wired soldered protoboards. Each component was tested individually to confirm
+                    they worked in isolation before being integrated together.
+                </p>
+                <p>
+                    After building the wiring looms and installing sensors onto the arm, I conducted further testing,
+                    where isolated running of motors and sensors passed without issue.
+                    However, running the stepper motors and the hall/limit sensors simultaneously revealed a problem,
+                    where the motor wires running alongside the sensor wires in the loom induces EMI onto the sensor signals.
+                </p>
+                <p>
+                    Filtering the EMI in software resolve the issue, but ultimately being in the prototyping phase 
+                    and to simplify software, the issue was addressed at the hardware level with an RC filter for each sensor,
+                    clearing up the signal.
+                </p>
+            </div>
+
+            <h4>2.3 PCB Design</h4>
+            <div class="project-float">
+                <img class="project-image-float" src="assets/robot-arm/schematic.jpg" alt="Circuit schematic">
+                <img class="project-image-float" src="assets/robot-arm/pcb.png" alt="PCB">
+                <p>
+                    With the protoboard having reliability concerns, alongside the increasing complexity,
+                    the next step was to design a custom PCB. The overall structure mirrored the protoboard,
+                    with the addition of RC filtering and clearer labelling on headers.
+                </p>
+                <p>
+                    The PCB contains traces for six motor drivers, each with pins for STEP, DIR, EN, 
+                    DIAG, and UART/SPI, paired with input voltage smoothing capacitors.
+                    There are also six hall effect sensors, six limit switches, and a servo, which are paired 
+                    with pull up resistors and RC filtering.
+                    Considering its 95mm x 100 mm footprint and the traces required, a four-layer design was chosen.
+                    The final product was designed in KiCad, and manufactured by JLCPCB. 
+                </p>
+            </div>
+           
+
+
             
 
 
@@ -197,34 +265,8 @@
 
 
 
+<!-- 
 
-
-
-
-
-            <div class="project-float">
-                <div class="image-column-float right">
-                    <img class="project-image-float" src="assets/robot-arm/schematic.png" alt="KiCad Schematic">
-                    <img class="project-image-float" src="assets/robot-arm/electronics.jpg" alt="Electronics for the robot arm">
-                </div>
-                <p>
-                    The arm uses six stepper motors controlled by an STM32 Nucleo, with five NEMA 17 motors driven by
-                    TMC2209 stepper drivers and the NEMA 23 shoulder motor driven by a TMC5160. The system is built
-                    around a 24V DC switching power supply, with a buck converter stepping down to 5V for logic, sensors,
-                    and the gripper servo.
-                </p>
-                <p>
-                    Each joint uses an A3144E Hall-effect sensor paired with a magnet for homing, while limit switches are
-                    used on joints with a physically restricted range of motion — the shoulder, elbow, and wrist — to
-                    provide hard-stop detection. The current prototype uses hand-wired protoboards for the motor drivers
-                    and control electronics. Electronics are protected with fusing, and a hardware-level E-stop can cut
-                    motor power entirely.
-                </p>
-                <p>
-                    The next iteration will consolidate the electronics into a custom PCB, replacing the protoboard-based
-                    architecture to reduce wiring complexity once the current design is fully validated.
-                </p>
-            </div>
 
 <h3>Homing & Motion Control</h3>
 <div class="project-float">
