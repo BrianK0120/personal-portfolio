@@ -138,29 +138,52 @@ li {
     align-items: center;
 }
 
-.project-section {
-    display: flex;
-    align-items: center;
-    gap: 40px;
+.project-float {
+    margin-top: 20px;
 }
 
-.project-section.reverse {
-    flex-direction: row-reverse;
-}
-
-.project-image {
-    width: 50%;
+.project-image-float {
+    float: right;
+    width: 45%;
     height: auto;
+    margin-left: 30px;
+    margin-bottom: 10px;
 }
 
-.image-column {
+.project-float::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.project-image-float.left {
+    float: left;
+    margin-left: 0;
+    margin-right: 30px;
+}
+
+.image-column-float {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 45%;
 }
 
-.image-column .project-image {
+.image-column-float.left {
+    float: left;
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
+.image-column-float.right {
+    float: right;
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+
+.image-column-float .project-image-float {
     width: 100%;
+    float: none; /* prevent the individual images from also trying to float */
 }
 
 .gallery {
@@ -252,14 +275,10 @@ a:hover {
         gap: 5px;
     }
 
-    .project-section,
-    .project-section.reverse {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .project-image {
+    .project-image-float {
+        float: none;
         width: 100%;
+        margin: 0 0 15px 0;
     }
 
     .gallery {
