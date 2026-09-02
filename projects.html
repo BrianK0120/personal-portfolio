@@ -28,23 +28,345 @@
                 <p><em>July 2026 - Present</em></p>
             </div>
 
+        
             <h3>Overview</h3>
             <div class="project-float">
                 <img class="project-image-float" src="assets/robot-arm/main.jpg" alt="Complete robot arm assembly">
+
                 <p>
-                    In a world where specialization is commonplace, I have always been drawn to exploring the various areas of engineering. 
-                    Being exposed to many different disciplines while growing up, I have quickly realized that I enjoy working across many of them. 
-                    The process of learning how each part works, as well as how they come together to create a complete system, is a something that I find very fulfilling.
+                    Robotic systems require contributions from nearly every engineering discipline: 
+                    mechanical design, electronics, embedded systems, control, and software,
+                    with each subsystem playing a part to achieve the ultimate goal.
+                    This intersection of disciplines is what has drawn to me study Robotics.
+                    As an engineer, I want to build the skillset and understanding needed to work on
+                    every part of a system, developing a thorough understanding of how each component 
+                    operates as well as they they interact with one another.
                 </p>
                 <p>
-                    My decision to major in Robotics has given me the opportunity to pursue this, exploring across everything from mechanical design and electronics, to embedded systems, control, and software. 
-                    Rather than focusing each system in isolation, I have been able to develop an understanding of how they interact with one another in robotic systems.
+                    To grow my skills, I started this personal project to build a 6-DOF robotic manipulator.
+                    Taking on this project gives me hands-on exposure to the full stack of skills required to make it work,
+                    with full ownership from initial concept to working product.
+                    The skills I aim to develop through this project include:
                 </p>
+                <ul>
+                    <li><b>Mechanical:</b> CAD, rapid prototyping, torque reduction, design for manufacturing and assembly</li>
+                    <li><b>Electrical:</b> PCB design, sensor integration, motor drivers, power distribution</li>
+                    <li><b>Embedded:</b> STM32 firmware, stepper control, homing, sensing</li>
+                    <li><b>Robotics:</b> ROS2, forward/inverse kinematics, trajectory planning, MPC</li>
+                    <li><b>ML & Simulation:</b> Gazebo, cameras, object detection, localization</li>
+                </ul>
+            </div>
+            <div class="project-float">
+                <img class="project-image-float left" src="assets/robot-arm/first-attempt.jpg" alt="First-year robotic arm attempt">
                 <p>
-                    As a challenge to push myself further, I have began this personal project to build a robotic arm from end to end. 
-                    By taking ownership of the entire process, I hope to strengthen my technical skills in each area whilst gaining experience in the practical applications as well as challenges that come with bringing a system from an initial design to a working product.
+                    I first attempted this challenge after first year,
+                    building a simpler robotic manipulator with the limited tools and knowledge I had at the time.
+                    With several years of experience and knowledge accumulated since then, 
+                    I felt this was the right time to revisit the idea with a more ambitious plan.
+                    The photo shows that first attempt, which serves as a benchmark for level of growth in my
+                    skills I have achieved in just a couple years.
                 </p>
             </div>
+
+            <h3>1. Mechanical Design</h3>
+            <h4>1.1 Mechanical Architecture</h4>
+            <div class="project-float">
+                <img class="project-image-float left" src="assets/robot-arm/cad.png" alt="Robot arm CAD model">
+                <p>
+                    With a higher budget , 3D printer, and more tools, the design specifications are as follows:
+                </p>
+                <ul>
+                    <li>6 degrees of freedom</li>
+                    <li>~1 metre of reach</li>
+                    <li>3D printed body</li>
+                    <li>Interchangeable end effector</li>
+                    <li>Stepper motor driven joints</li>
+                </ul>
+                <p>
+                    Following an anatomical naming scheme, the robot arm assembly is split into multiple subsections,
+                    each design as a separate sub-assembly. This configuration allows for modularity,
+                    allowing for modifications and part replacements without rebuilding the entire arm,
+                    leverage rapid prototyping. Components were designed in OnShape to be 3D printed and assembled
+                    using heat-set inserts and standard M3 hardware.
+                </p>
+            </div>
+            <h4>1.2 Torque Reduction</h4>
+            <p>
+                Due to the relative large parts, the stepper motors would not be able to provide adequate torque
+                with direct drive, thus torque reduction was required in order to have a functioning arm.
+                Three main torque reduction methods were considered - cycloidal, belt, and planetary, due to 
+                the abundance of information and resources online regarding these methods.
+            </p>
+            <h5>1.2.1 Belt Drive  vs. Planetary Gearbox</h5>
+            <div class="project-float">
+                <img class="project-image-float" src="assets/robot-arm/belt-drive.png" alt="Arm linkage belt drive">
+                <p>
+                    With a fully extended arm, there would be significant torque required by the shoulder joint.
+                    To lower the torque demand, the obvious solution would be to either increase the reduction ratio
+                    at the shoulder, or to decrease linkage lengths. However, a belt drive would provide an alternate
+                    solution, with the ability to increase the distance between the motor shaft and the output shaft
+                    by using a large belt loop. With this method, the heavy stepper motor can be positioned further back,
+                    reducing the moment arm length of the motor with respect to the previous joint, reducing the torque required.
+                    This cannot be achieved with a planetary gearbox as the output shaft is coaxial with the motor shaft, 
+                    maintaining a large moment arm distance. Therefore the belt drive provides this additional advantage,
+                    without any added disadvantage.
+                </p>
+                <img class="project-image-float left" src="assets/robot-arm/belt-tension.jpg" alt="Forearm linkage belt tensioner">
+                <p>
+                    Belt drives also have the benefit of minimal backlash, given the proper belt tension.
+                    With heat-set insert screw holes on the chassis, the belt tensioning blocks were designed
+                    to be easily interchanged. This allowed for minimal part reprinting, as a change in belt loop
+                    length or teeth on the output shaft pulley could use the same linkage chassis, but with a different
+                    sized belt tensioning block.
+                </p>
+                <p>
+                    Given these benefits, a belt reduction was utilized on the arm and forearm linkages.
+                </p>
+            </div>
+            <h5>1.2.1 Cycloidal Drive</h5>
+            <div class="project-float">
+                <img class="project-image-float" src="assets/robot-arm/cycloidal-drive.jpg" alt="Shoulder cycloidal drive">
+                <p>
+                    With the high torque demand of the shoulder joint, the cycloidal drive was chosen for its ability
+                    to have high reduction ratios and minimal backlash for a compact form factor. Its only downside would be its weight, 
+                    as well as all the hardware required with the outer dowel pins, inner brass bushings, and shoulder screws.
+                    However, given its placement directly on top of the base, the weight is a nonissue.
+                </p>
+                <p>
+                    To achieve the desired backlash, several iterations with the tolerancing were required.
+                    With very few parts, the cycloidal disc was chosen to be iterated upon, given its intefacing
+                    with the outer pins as well as the inner bushings. To eliminate variables and to allow for
+                    fast convergence, a fixed number of wall outer loops and infill density were decided upon,
+                    with the only change being the outer and inner tolerancing. The end product provides 
+                    minimal backlash without too much friction.
+                </p>
+            </div>
+
+            <h4>1.3 Counterbalancing</h4>
+            <div class="project-float">
+                <img class="project-image-float left" src="assets/robot-arm/counterbalancing.png" alt="Arm counterbalancing">
+                <p>
+                    During the first attempt of building a robotic manipulator, there was inadequate torque reduction,
+                    causing the small 28BYJ-48 stepper motors to stall and unable to rotate.
+                    To work around the issue, I had attached a bag of screws on the opposite side to counterbalance
+                    and cancel out the moment forces required, such that the motor could rotate. 
+                </p>
+                <p>
+                    Inspired by this, when designing the forearm, a counterbalancing placement of the heavy stepper motors were used.
+                    The forearm consists of wrist rotation, wrist pitch, and forearm rotation, requiring 3 NEMA 17 stepper motors in total.
+                    With the forearm rotating about the elbow joint, a design decision was made to place one motor on the opposite
+                    side of the elbow joint to create a negative moment, reducing the torque requirements at the elbow.
+                </p>
+                <p>
+                    The benefit of this choice affected the design downstream, with the reduced elbow torque
+                    requiring a smaller reduction ratio and stepper motor within the arm linkage.
+                    With less hardware and a smaller motor, this would also reduce the torque requirements at the shoulder joint below.
+                </p>
+            </div>
+
+            <h4>1.4 Cable Management</h4>
+            <div class="project-float">
+                <img class="project-image-float" src="assets/robot-arm/ziptie.png" alt="Zip tie attachment points">
+                <p>
+                    During the design phase, I considered internal cable routing through the linkages, however this would have 
+                    required significant additional design time, as well as making the arm harder to service. 
+                    The alternative of leaving cables laying on the outside, would have left to a messy and unmanaged design.
+                </p>
+                <p>
+                    Upon consideration, the solution cam from an experience during my Red Bull Powertrains placement, 
+                    where I spent a week in engine build helping disassmble a F1 power unit. I noticed throughout the 
+                    disassembly process carbon fibre plates epoxied onto the body, with gaps sized for zip ties used
+                    to fasten wiring harnesses and looms directly onto the engine at specified tie-down points.
+                    Servicing the loom was simple, with a couple of snips to zip ties, the harness came free.
+                </p>
+                <p>
+                    Taking inspiration from this, I added zip tie mounts across the linkages of the arm,
+                    allowing wiring to the fastened to the body. This similarly allows easy access and servicing
+                    by cutting a couple zip ties. Althought a small part of the overall design, this simple solution
+                    provides tidiness without adding significant time to the design process.
+                </p>
+            </div>
+
+            <!-- <h3>2. Electronics</h3>
+            <h4>2.1 Electronics Architecture</h4>
+            
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="project-float">
+                <div class="image-column-float right">
+                    <img class="project-image-float" src="assets/robot-arm/schematic.png" alt="KiCad Schematic">
+                    <img class="project-image-float" src="assets/robot-arm/electronics.jpg" alt="Electronics for the robot arm">
+                </div>
+                <p>
+                    The arm uses six stepper motors controlled by an STM32 Nucleo, with five NEMA 17 motors driven by
+                    TMC2209 stepper drivers and the NEMA 23 shoulder motor driven by a TMC5160. The system is built
+                    around a 24V DC switching power supply, with a buck converter stepping down to 5V for logic, sensors,
+                    and the gripper servo.
+                </p>
+                <p>
+                    Each joint uses an A3144E Hall-effect sensor paired with a magnet for homing, while limit switches are
+                    used on joints with a physically restricted range of motion — the shoulder, elbow, and wrist — to
+                    provide hard-stop detection. The current prototype uses hand-wired protoboards for the motor drivers
+                    and control electronics. Electronics are protected with fusing, and a hardware-level E-stop can cut
+                    motor power entirely.
+                </p>
+                <p>
+                    The next iteration will consolidate the electronics into a custom PCB, replacing the protoboard-based
+                    architecture to reduce wiring complexity once the current design is fully validated.
+                </p>
+            </div>
+
+<h3>Homing & Motion Control</h3>
+<div class="project-float">
+    <p>
+        Each joint requires homing to establish a known reference position before motion control can begin.
+        Joints are categorized as either <b>free</b> or <b>restricted</b>, each requiring a different homing
+        strategy.
+    </p>
+    <p>
+        A free joint has no physical range-of-motion limit and can rotate a full 360°, so a single Hall-effect
+        sensor and magnet pair is sufficient. The joint moves in a known direction from an unknown starting
+        position until the sensor detects the magnet, establishing the home position from that detection.
+    </p>
+    <p>
+        A restricted joint — one with a physically limited range of motion, such as where the arm could
+        intersect the base — additionally uses limit switches at each end of its range as hard-stop
+        indicators. The joint moves toward a limit switch; if triggered, it reverses direction until the Hall
+        sensor detects the magnet, which establishes home.
+    </p>
+    <p>
+        Because the A3144E is a digital sensor, it cannot report an exact single-point detection — instead, it
+        reports two edges of a detection window as the magnet passes by. The true home position is taken as
+        the midpoint of that window: <code>home = (angle_on + angle_off) / 2</code>. This midpoint approach
+        keeps homing accuracy independent of magnet placement radius, magnet width, and joint speed, all of
+        which affect the raw detection window but not its midpoint.
+    </p>
+    <p>
+        During limit switch testing, an edge case surfaced where a sudden stop at one limit switch could cause
+        enough mechanical rebound to momentarily trigger the opposite limit switch — a reminder that trajectory
+        profile choice (trapezoidal vs. S-curve) affects not just motion smoothness but also how reliably
+        limit-switch-based safety logic behaves in practice.
+    </p>
+</div>
+
+<h3>Controls</h3>
+<section>
+    <div>
+        <p>
+            The control system is currently under development. The arm is controlled by an STM32F446RE, with
+            stepper drivers configured through step/direction signals and UART.
+        </p>
+        <p>
+            Current work is focused on implementing reliable joint homing and motion control. Future
+            development will include forward and inverse kinematics, trajectory generation, and higher-level
+            motion planning through ROS2 and MATLAB/Simulink integration, along with simulation in Gazebo.
+        </p>
+    </div>
+</section>
+
+
+<h4>Motor Selection & Torque Reduction</h4>
+<div class="project-float">
+    <p>
+        Motor selection came down to a NEMA 17 vs. NEMA 23 tradeoff at each joint. NEMA 17 motors are
+        smaller, lighter, and sufficient for most of the arm's joints, but their lower holding and dynamic
+        torque made them unsuitable for the shoulder, which carries the highest structural load in the arm's
+        worst-case extended configuration. A NEMA 23 motor was used there instead, at the cost of added
+        weight and size closer to the arm's base — where it matters least, since base-mounted mass doesn't
+        contribute to the arm's effective moment arm the way distal mass would.
+    </p>
+    <p>
+        Torque requirements were evaluated separately for holding torque (supporting a static load against
+        gravity) and dynamic torque (accelerating the joint under load), since a motor sized only for
+        holding torque can stall under acceleration, while sizing purely for dynamic torque everywhere would
+        over-spec joints that spend most of their time holding position. This distinction, along with each
+        motor's speed-torque tradeoff curve, informed both the motor choice and the reduction ratio needed at
+        each joint.
+    </p>
+    <p>
+        Four torque reduction mechanisms were considered:
+    </p>
+    <ul>
+        <li>
+            <b>Belt reduction</b> — used at most joints. Offers minimal backlash, particularly with proper
+            belt tensioning, and is mechanically efficient with low friction losses.
+        </li>
+        <li>
+            <b>Cycloidal drive</b> — used at the shoulder (25:1). Achieves a high reduction ratio in a
+            compact form factor with inherently low backlash; backlash was further minimized through
+            precision bushings and dowel pins in the drive assembly.
+        </li>
+        <li>
+            <b>Gear reduction</b> — used at the base. A helical gear profile was chosen to maximize
+            simultaneous tooth contact and minimize backlash; a double-helix configuration would additionally
+            cancel out axial thrust load, though this was weighed against added manufacturing complexity.
+        </li>
+        <li>
+            <b>Planetary gearbox</b> — considered but not used. Would have offered a compact, stackable,
+            direct-mount reduction if any joint had proven under-torqued, but no joint ultimately required it.
+        </li>
+    </ul>
+    <p>
+        The combination of motor sizing and reduction mechanism was tuned per joint rather than applying a
+        single uniform solution across the arm — balancing torque margin, backlash, weight distribution, and
+        mechanical complexity independently at each stage of the kinematic chain.
+    </p>
+</div>
+
+
+
+                <p>
+                    Motor selection was driven by the torque and speed requirements of each joint. Smaller, lower-torque
+                    joints (wrist, upper forearm) use NEMA 17 motors, while the shoulder — which bears the highest static
+                    and dynamic load in the arm's worst-case configuration — uses a larger NEMA 23 motor. Torque
+                    reduction mechanisms were selected per-joint based on their tradeoffs: belt reduction was used for
+                    most joints for its low backlash (especially with proper belt tension) and efficiency, while the
+                    shoulder uses a 25:1 cycloidal drive to achieve a high reduction ratio in a compact form factor with
+                    minimal backlash. A gear reduction was used at the base. Planetary gearboxes were considered but
+                    ultimately not needed, as no joint required additional torque beyond what belt or cycloidal reduction
+                    could provide.
+                </p>
+                <p>
+                    Bearing selection followed a similar joint-by-joint approach — radial bearings handle most joints,
+                    while a thrust bearing supports the axial load at the base, and a large-diameter ball bearing ring
+                    minimizes play in base rotation. For the elbow joint, where both axial and radial loads are present in
+                    varying proportions depending on arm position, a 45°/45° angular contact bearing was used to handle
+                    both simultaneously. In several locations, bearings were deliberately designed to contact only one
+                    race face rather than both, to simplify 3D-printed tolerancing where axial loading was minimal enough
+                    not to introduce meaningful friction.
+                </p>
+                <p>
+                    Several iterations of 3D printed parts were reprinted with adjusted tolerancing to minimize backlash
+                    at each joint — typical clearances were held to around 0.25mm. Each linkage required different
+                    hardware, including GT2 pulleys, belt loops, dowel pins, brass bushings, shoulder screws, and both
+                    radial and thrust bearings. The final arm has ~80cm of reach, with a modular end-effector mount to
+                    support various end-effector use cases.
+                </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -113,7 +435,7 @@
                     and inverse kinematics, trajectory generation, and higher-level
                     motion planning.
                 </p>
-            </div>
+            </div> -->
 
             <h3>Gallery</h3>
                 <div class="gallery" id="robot-arm-gallery"></div>
