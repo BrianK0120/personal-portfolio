@@ -57,9 +57,12 @@
 
         <section class="alternate-colour">
             <h2>Experience</h2>
-            <h3>
-                <a href="experience.html#red-bull">Trackside Engineering Placement - Red Bull Powertrains</a>
-            </h3>
+            <div class="exp-header">
+                <div class="exp-text">
+                    <h3><a href="experience.html#red-bull">Trackside Engineering Placement - Red Bull Powertrains</a></h3>
+                </div>
+                <img class="exp-logo" src="assets/logos/rbpt-logo.png" alt="Red Bull Powertrains logo">
+            </div>
             <p>
                 At Red Bull Powertrains, I worked on Red Bull's first F1 power unit for the 2026 season as a 
                 Trackside Engineering Placement. My work was split across two sub-teams.
@@ -93,6 +96,33 @@
         </section>
 
         <section>
+            <h2>Thesis</h2>
+            <div class="exp-header">
+                <div class="exp-text">
+                    <h3>Closed-Loop Control for Tendon Driven Continuum Robots with Continuous-Time State Estimation</h3>
+                </div>
+                <img class="exp-logo" src="assets/logos/crl-logo.png" alt="Continuum Robotics Laboratory logo">
+            </div>
+            <p>
+                Developing an actuation model for Embodied AI's Helix, 
+                a 9-tendon, 3-segment tendon driven continuum robot, 
+                and combining it with a stochastic continuous-time state estimation framework to close the control loop. 
+                Using Vicon motion capture as ground-truth feedback for the state estimator.
+            </p>
+
+            </p>
+            <p>
+                <em>
+                Supervised by
+                <a href="https://crl.utm.utoronto.ca/jbk/" target="_blank">Dr. Jessica Burgner-Kahrs</a>
+                at the 
+                <a href="https://crl.utm.utoronto.ca/" target="_blank">Continuum Robotics Laboratory</a>,
+                with mentorship from Ph.D. student Spencer Teetaert.
+                </em>
+            </p>
+        </section>
+
+        <section class="alternate-colour">
             <h2>Personal Projects</h2>
             <h3>
                 <a href="projects.html#robot-arm">6-DOF Robotic Manipulator</a>
@@ -116,13 +146,16 @@
 
             <h3>Machine Learning Soccer Analytics Tracker</h3>
             <p>
-                Developed a computer vision pipeline to detect players and
-                the ball for tracking, extracting player and team performance metrics from
-                soccer match footage.
+                Implemented a deep learning model using PyTorch and OpenCV to track soccer matches and analyze key metrics 
+                to calculate ball possession and speed metrics of Premier League teams.
+            </p>
+            <p>
+                Utilized the YOLO v5 image detection model, trained on a custom dataset to achieve 95% accuracy 
+                in object detection and classification.
             </p>
         </section>
 
-        <section class="alternate-colour">
+        <section>
             <h2>Awards & Certifications</h2>
             <ul>
                 <li>
@@ -140,7 +173,7 @@
             </ul>
         </section>
 
-        <section>
+        <section class="alternate-colour">
             <h2>Skills</h2>
             <p><b>Languages:</b> Python, C/C++, Java, MATLAB/Simulink, SQL, GraphQL</p>
             <p><b>Robotics & Machine Learning:</b> PyTorch, TensorFlow, ROS</p>
@@ -153,26 +186,17 @@
             </ul>
         </section>
 
-        <section class="alternate-colour">
+        <section>
             <h2>Education</h2>
-            <h3>Robotics | Engineering Science - University of Toronto</h3>
-            <p><b>3.71 GPA</b> - Dean's Honour List</p>
+            <div class="exp-header">
+                <div class="exp-text">
+                    <h3>Robotics | Engineering Science - University of Toronto</h3>
+                    <p><b>3.71 GPA</b> - Dean's Honour List</p>
+                </div>
+                <img class="exp-logo" src="assets/logos/uoft-logo.png" alt="University of Toronto logo">
+            </div>
         </section>
 
-        <!-- <section>
-            <h2>Thesis</h2>
-            <h3>Thesis Topic Title</h3>
-            <p>
-                Topic to be determined.
-            </p>
-            <p>
-                Supervised by
-                <a href="https://crl.utm.utoronto.ca/jbk/" target="_blank">Dr. Jessica Burgner-Kahrs</a>
-                at the <a href="https://crl.utm.utoronto.ca/" target="_blank">Continuum Robotics Laboratory</a>,
-                with mentorship from Ph.D. student Spencer Teetaert.
-            </p>
-        </section>
-    </main> -->
-
+    </main>
 </body>
 </html>

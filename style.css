@@ -131,6 +131,23 @@ li {
     margin-right: 5px;
 }
 
+.exp-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.exp-text{
+    flex: 1;
+}
+
+.exp-logo{
+    max-width: 100px;
+    height: auto;
+    flex-shrink: 0;
+}
+
 /* Image Classes */
 .headshot {
     width: 300px;
@@ -295,6 +312,13 @@ a:hover {
         float: none;
         width: 100%;
         margin: 0 0 15px 0;
+    }
+
+    .exp-header{
+        flex-direction: column;
+    }
+    .exp-logo{
+        max-width: 60px;
     }
 
     .gallery {
